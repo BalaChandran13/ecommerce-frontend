@@ -27,9 +27,10 @@ class Product extends React.Component {
           <Table.Cell>{product.size}</Table.Cell>
           <Table.Cell>{product.price}</Table.Cell>
           <Table.Cell>{product.seller}</Table.Cell>
-          <Table.Cell>  <Button icon>
-                          <Icon name='minus' />
-                        </Button>
+          <Table.Cell>
+          <Button onClick={this.props.handleDelete} value={product.id} icon>
+                 <Icon name='minus'/>
+           </Button>
            </Table.Cell>
           </Table.Row>;
           })

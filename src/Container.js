@@ -24,11 +24,12 @@ constructor(props) {
     this.handleChange = this.handleChange.bind(this);
     this.handleAddClick = this.handleAddClick.bind(this);
     this.updateProductList = this.updateProductList.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
 }
 
 updateProductList() {
     axios.get(
-         "http://ecommerceproduct-backend.herokuapp.com/product", {
+         "/product", {
             params: {
                  filter_type: "",
                  filter_value: ""
@@ -46,7 +47,7 @@ componentDidMount() {
 
 handleClick(event){
     axios.get(
-        "http://ecommerceproduct-backend.herokuapp.com/product",
+        "/product",
         {
             params: {
                 filter_type: this.state.selectValue,
@@ -58,9 +59,14 @@ handleClick(event){
     });
 }
 
+handleDelete = (event, { value }) => {
+    axios.delete("/product/" + value);
+    this.updateProductList();
+}
+
 handleAddClick(){
     axios.post(
-        "http://ecommerceproduct-backend.herokuapp.com/product", {
+        "/product", {
                 name: this.state.name,
                 size: this.state.size,
                 price: this.state.price,
@@ -69,6 +75,7 @@ handleAddClick(){
             }
     ).then((response) => {
         this.updateProductList();
+        this.setState({name: '', size: '', price: '', brand: '', seller: ''});
     });
 
 
@@ -108,7 +115,7 @@ return(
       <Select onChange={this.handleSelectChange} compact options={filterOptions} defaultValue={this.state.selectValue}/>
       <Button type='submit' onClick={this.handleClick}>Search</Button>
     </Input>
-    <Product data={this.state.productList}/>
+    <Product data={this.state.productList} handleDelete={this.handleDelete}/>
     <Form>
             <Form.Group widths='equal'>
               <Form.Input fluid label='Name' name='name' placeholder='Name' onChange={this.handleChange}/>
