@@ -31,7 +31,7 @@ constructor(props) {
 
 updateProductList() {
     axios.get(
-         "/product", {
+         URL + "/product", {
             params: {
                  filter_type: "",
                  filter_value: ""
