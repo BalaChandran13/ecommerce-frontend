@@ -3,6 +3,8 @@ import Product from './Product.js'
 import axios from 'axios'
 import { Input, Select, Button, Form } from 'semantic-ui-react'
 
+const URL = "http://ecommerceproduct-backend.herokuapp.com";
+
 class Container extends React.Component{
 
 constructor(props) {
@@ -47,7 +49,7 @@ componentDidMount() {
 
 handleClick(event){
     axios.get(
-        "/product",
+        URL + "/product",
         {
             params: {
                 filter_type: this.state.selectValue,
@@ -60,13 +62,13 @@ handleClick(event){
 }
 
 handleDelete = (event, { value }) => {
-    axios.delete("/product/" + value);
+    axios.delete(URL + "/product/" + value);
     this.updateProductList();
 }
 
 handleAddClick(){
     axios.post(
-        "/product", {
+        URL + "/product", {
                 name: this.state.name,
                 size: this.state.size,
                 price: this.state.price,
