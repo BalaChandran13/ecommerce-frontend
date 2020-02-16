@@ -1,7 +1,7 @@
 import React from 'react'
 import Product from './Product.js'
 import axios from 'axios'
-import { Input, Select, Button, Form } from 'semantic-ui-react'
+import { Input, Select, Button, Form, Header } from 'semantic-ui-react'
 
 const URL = "http://ecommerceproduct-backend.herokuapp.com";
 
@@ -62,8 +62,10 @@ handleClick(event){
 }
 
 handleDelete = (event, { value }) => {
-    axios.delete(URL + "/product/" + value);
-    this.updateProductList();
+    axios.delete(URL + "/product/" + value).then((response) => {
+        this.updateProductList();
+    });
+
 }
 
 handleAddClick(){
@@ -112,6 +114,7 @@ let filterOptions = [
 
 return(
 <div>
+<Header as='header' block color='blue' textAlign='center'>ECOMMERCE-PRODUCT</Header>
   <Input type='text' placeholder='Search...' action>
       <input onChange={this.handleInputChange}/>
       <Select onChange={this.handleSelectChange} compact options={filterOptions} defaultValue={this.state.selectValue}/>
@@ -120,18 +123,25 @@ return(
     <Product data={this.state.productList} handleDelete={this.handleDelete}/>
     <Form>
             <Form.Group widths='equal'>
-              <Form.Input fluid label='Name' name='name' placeholder='Name' onChange={this.handleChange}/>
-              <Form.Input fluid label='Brand' name='brand' placeholder='Brand' onChange={this.handleChange}/>
-              <Form.Select
+              <Form.Input required fluid label='Name' name='name' placeholder='Name' onChange={this.handleChange}
+              value={this.state.name}
+              />
+              <Form.Input required fluid label='Brand' name='brand' placeholder='Brand' onChange={this.handleChange}
+              value={this.state.brand}/>
+              <Form.Select required
                 fluid
                 label='Size'
                 options={options}
                 placeholder='Size'
                 name='size'
                 onChange={this.handleChange}
+                value={this.state.size}
               />
-              <Form.Input fluid label='Price' name='price' placeholder='Price' onChange={this.handleChange}/>
-              <Form.Input fluid label='Seller' name='seller' placeholder='Seller' onChange={this.handleChange}/>
+              <Form.Input required fluid label='Price' name='price' placeholder='Price' onChange={this.handleChange}
+              value={this.state.price} type='number'/>
+              <Form.Input required fluid label='Seller' name='seller' placeholder='Seller' onChange={this.handleChange}
+              value={this.state.seller}
+              />
             </Form.Group>
             <Form.Button onClick={this.handleAddClick}>AddItem</Form.Button>
           </Form>
